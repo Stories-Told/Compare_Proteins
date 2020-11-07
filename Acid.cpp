@@ -11,6 +11,8 @@ Acid::Acid()
     id = 1;
     position = vec3(1.0, 2.0, 5.4);
     lastX = 0;
+    isTwoConnections = false;
+    isThreeConnections = false;
     aNext = NULL;
     bondList[0] = NULL;
     bondList[1] = NULL;
@@ -115,6 +117,7 @@ void Acid::AddConnections()
                         aCurrent->AddBond(aConnectionNode);
                     }
                 }
+                aCurrent->SetIsTwoConnections(true);
             }
             else if (connectionsToMake == 3)
             {
@@ -147,12 +150,14 @@ void Acid::AddConnections()
                         aCurrent->AddBond(aConnectionNode);
                     }
                 }
+                aCurrent->SetIsThreeConnections(true);
             }
         }
 
         aCurrent = aCurrent->aGetNext();
     }
 }
+
 
 // Function to copy all the original protein's linked list data
 // into a new linked list (useful so that we don't have to make changes to
@@ -166,23 +171,24 @@ void Acid::CopyLinkedListContents()
     while (aCurrent != NULL)
     {
         // Create new acid instances each loop for the new linked list
-        acid = new Acid;
+        aCurrentNewAcid = new Acid;
 
         // Takes the data from the original linked list and sets
         // that data to the new acid instances
-        acid->Setid(aCurrent->Getid());
-        acid->Setposition(aCurrent->Getposition());
+        aCurrentNewAcid->Setid(aCurrent->Getid());
+        aCurrentNewAcid->Setposition(aCurrent->Getposition());
 
         // creates a new linked list head
         if (aHeadNewAcid == NULL)
         {
-            aHeadNewAcid = acid;
+            aHeadNewAcid = aCurrentNewAcid;
+            aPreviousNewAcid = aCurrentNewAcid;
         }
         // Creates the rest of the new linked list nodes
         else
         {
-            acid->aSetNext(aHeadNewAcid);
-            aHeadNewAcid = acid;
+            aPreviousNewAcid->aSetNext(aCurrentNewAcid);
+            aPreviousNewAcid = aPreviousNewAcid->aGetNext();
         }
         // Iteirate through the original linked list
         aCurrent = aCurrent->aGetNext();
@@ -190,6 +196,77 @@ void Acid::CopyLinkedListContents()
 
 }
 
+void Acid::AddCopiedConnections()
+{
+    aCurrent = aHead;
+    aCurrentNewAcid = aHeadNewAcid;
+    while (aCurrentNewAcid != NULL)
+    {
+        if (aCurrent->GetIsTwoConnections() == true)
+        {
+            aCopiedConnectionNode = aCurrentNewAcid;
+            aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+
+            // First connection
+            if (aCopiedConnectionNode != NULL)
+            {
+                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+                if (aCopiedConnectionNode != NULL)
+                {
+                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
+                }
+            }
+
+            // Second connection
+            if (aCopiedConnectionNode != NULL)
+            {
+                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+                if (aCopiedConnectionNode != NULL)
+                {
+                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
+                }
+            }
+        }
+        else if (aCurrent->GetIsThreeConnections() == true)
+        {
+            aCopiedConnectionNode = aCurrentNewAcid;
+            aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+
+            // First connection
+            if (aCopiedConnectionNode != NULL)
+            {
+                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+                if (aCopiedConnectionNode != NULL)
+                {
+                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
+                }
+            }
+
+            // Second connection
+            if (aCopiedConnectionNode != NULL)
+            {
+                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+                if (aCopiedConnectionNode != NULL)
+                {
+                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
+                }
+            }
+
+            // Third connection
+            if (aCopiedConnectionNode != NULL)
+            {
+                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+                if (aCopiedConnectionNode != NULL)
+                {
+                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
+                }
+            }
+        }
+
+        aCurrent = aCurrent->aGetNext();
+        aCurrentNewAcid = aCurrentNewAcid->aGetNext();
+    }
+}
 
 // Function that displays the original protein data
 void Acid::DisplayAcidPosition()
@@ -221,4 +298,13 @@ void Acid::DeleteAllAcidLinkList()
     }
     delete aHead;
 
+    // Deletes the random protein
+    aCurrentNewAcid = aHeadNewAcid;
+    while (aCurrentNewAcid != NULL)
+    {
+        aHeadNewAcid = aCurrentNewAcid->aGetNext();
+        delete aCurrentNewAcid;
+        aCurrentNewAcid = aHeadNewAcid;
+    }
+    delete aHeadNewAcid;
 }

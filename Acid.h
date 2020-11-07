@@ -23,6 +23,7 @@ public:
     Acid* aHeadNewAcid = NULL;
     Acid* aCurrentNewAcid = NULL;
     Acid* aPreviousNewAcid = NULL;
+    Acid* aCopiedConnectionNode = NULL;
 
     // Counter for acid connections
     int countConnections;
@@ -42,6 +43,12 @@ public:
     double GetLastX() { return lastX; }
     void SetLastX(double val) { lastX = val; }
 
+    bool GetIsTwoConnections() { return isTwoConnections; }
+    void SetIsTwoConnections(bool val) { isTwoConnections = val; }
+
+    bool GetIsThreeConnections() { return isThreeConnections; }
+    void SetIsThreeConnections(bool val) { isThreeConnections = val; }
+
     Acid* aGetNext() { return aNext; }
     void aSetNext(Acid* h) { aNext = h; }
 
@@ -51,6 +58,7 @@ public:
     void AddBond(Acid* acid);
     void AddConnections();
     void CopyLinkedListContents();
+    void AddCopiedConnections();
     void DisplayAcidPosition();
     void DeleteAllAcidLinkList();
 
@@ -58,6 +66,8 @@ private:
     vec3 position;
     int id;
     double lastX;
+    bool isTwoConnections;
+    bool isThreeConnections;
 };
 
 #endif // ACID_H

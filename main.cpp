@@ -16,19 +16,8 @@ int main()
     newProtein01.CreateRandomProtein();
     cout << endl;
 
-    // Protein 02
-    cout << "PROTEIN 02" << endl;
-    Protein newProtein02;
-    newProtein02.CreateOriginalProtein();
-    cout << endl;
-    newProtein02.CreateRandomProtein();
-
-    // Compares the two non-original random proteins
-    //CompareProteins(newProtein01, newProtein02);
-
     // Delete all link lists
     newProtein01.genAcids.DeleteAllAcidLinkList();
-    newProtein02.genAcids.DeleteAllAcidLinkList();
 
     return 0;
 }
