@@ -65,6 +65,14 @@ int HowManyConnectionsToMake()
     return rollRandomNum;
 }
 
+int AmountToCountAhead()
+{
+    uniform_int_distribution<int> randomNumber(2, 4);
+    int rollRandomNum = randomNumber(rGen);
+
+    return rollRandomNum;
+}
+
 // Generates a random protein name
 string GenerateRandomName()
 {

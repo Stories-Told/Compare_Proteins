@@ -11,6 +11,7 @@ double GenerateRandomZ();
 bool SelectFromLinkedList();
 bool CreateAcidBond();
 int HowManyConnectionsToMake();
+int AmountToCountAhead();
 
 std::string GenerateRandomName();
 

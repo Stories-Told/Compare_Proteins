@@ -49,12 +49,12 @@ void Protein::CreateRandomProtein()
     cout << "Copied Protein Name: " << name << endl;
 
     genAcids.CopyLinkedListContents();
-    genAcids.AddCopiedConnections();
+    //genAcids.AddCopiedConnections();
 
     genAcids.aCurrentNewAcid = genAcids.aHeadNewAcid;
     while (genAcids.aCurrentNewAcid != NULL)
     {
-        genAcids.aCurrentNewAcid->DisplayAcidPosition();
+        genAcids.aCurrentNewAcid->DisplayCopiedAcidPosition();
         genAcids.aCurrentNewAcid = genAcids.aCurrentNewAcid->aGetNext();
     }
 }

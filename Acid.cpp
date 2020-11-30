@@ -17,7 +17,7 @@ Acid::Acid()
     bondList[0] = NULL;
     bondList[1] = NULL;
     bondList[2] = NULL;
-    countConnections = 0;
+    countBonds = 0;
 }
 
 // Deconstructor
@@ -33,7 +33,7 @@ Acid::~Acid()
 void Acid::GenerateOriginalAcidPositions()
 {
     // For loop to create 10 acids
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 20; i++)
     {
         // Create a new acid each loop
         aCurrent = new Acid;
@@ -68,11 +68,11 @@ void Acid::GenerateOriginalAcidPositions()
 
 void Acid::AddBond(Acid* acid)
 {
-    if (countConnections == 0)
+    if (countBonds == 0)
     {
         bondList[0] = acid;
     }
-    else if (countConnections == 1)
+    else if (countBonds == 1)
     {
         bondList[1] = acid;
     }
@@ -81,8 +81,9 @@ void Acid::AddBond(Acid* acid)
         bondList[2] = acid;
     }
 
-    countConnections++;
+    countBonds++;
 }
+
 
 void Acid::AddConnections()
 {
@@ -93,7 +94,6 @@ void Acid::AddConnections()
         if (createBond == true)
         {
             aConnectionNode = aCurrent;
-            aConnectionNode = aConnectionNode->aGetNext();
 
             int connectionsToMake = Utils::HowManyConnectionsToMake();
             if (connectionsToMake == 2)
@@ -101,7 +101,15 @@ void Acid::AddConnections()
                 // First connection
                 if (aConnectionNode != NULL)
                 {
-                    aConnectionNode = aConnectionNode->aGetNext();
+
+                    int countAhead = Utils::AmountToCountAhead();
+
+                    for (int i = 0; i < countAhead; i++)
+                    {
+                        aConnectionNode = aConnectionNode->aGetNext();
+                        if (aConnectionNode == NULL) { break; }
+                    }
+                    
                     if (aConnectionNode != NULL)
                     {
                         aCurrent->AddBond(aConnectionNode);
@@ -111,7 +119,14 @@ void Acid::AddConnections()
                 // Second connection
                 if (aConnectionNode != NULL)
                 {
-                    aConnectionNode = aConnectionNode->aGetNext();
+                    int countAhead = Utils::AmountToCountAhead();
+
+                    for (int i = 0; i < countAhead; i++)
+                    {
+                        aConnectionNode = aConnectionNode->aGetNext();
+                        if (aConnectionNode == NULL) { break; }
+                    }
+
                     if (aConnectionNode != NULL)
                     {
                         aCurrent->AddBond(aConnectionNode);
@@ -124,7 +139,14 @@ void Acid::AddConnections()
                 // First connection
                 if (aConnectionNode != NULL)
                 {
-                    aConnectionNode = aConnectionNode->aGetNext();
+                    int countAhead = Utils::AmountToCountAhead();
+
+                    for (int i = 0; i < countAhead; i++)
+                    {
+                        aConnectionNode = aConnectionNode->aGetNext();
+                        if (aConnectionNode == NULL) { break; }
+                    }
+
                     if (aConnectionNode != NULL)
                     {
                         aCurrent->AddBond(aConnectionNode);
@@ -134,7 +156,14 @@ void Acid::AddConnections()
                 // Second connection
                 if (aConnectionNode != NULL)
                 {
-                    aConnectionNode = aConnectionNode->aGetNext();
+                    int countAhead = Utils::AmountToCountAhead();
+
+                    for (int i = 0; i < countAhead; i++)
+                    {
+                        aConnectionNode = aConnectionNode->aGetNext();
+                        if (aConnectionNode == NULL) { break; }
+                    }
+
                     if (aConnectionNode != NULL)
                     {
                         aCurrent->AddBond(aConnectionNode);
@@ -144,7 +173,14 @@ void Acid::AddConnections()
                 // third connection
                 if (aConnectionNode != NULL)
                 {
-                    aConnectionNode = aConnectionNode->aGetNext();
+                    int countAhead = Utils::AmountToCountAhead();
+
+                    for (int i = 0; i < countAhead; i++)
+                    {
+                        aConnectionNode = aConnectionNode->aGetNext();
+                        if (aConnectionNode == NULL) { break; }
+                    }
+
                     if (aConnectionNode != NULL)
                     {
                         aCurrent->AddBond(aConnectionNode);
@@ -164,108 +200,100 @@ void Acid::AddConnections()
 // the original linked list)
 void Acid::CopyLinkedListContents()
 {
-    //TODO make functionality to copy over the bonds and connections
-
     // Set original current to original head (starts from the first node)
     aCurrent = aHead;
     while (aCurrent != NULL)
     {
-        // Create new acid instances each loop for the new linked list
-        aCurrentNewAcid = new Acid;
-
-        // Takes the data from the original linked list and sets
-        // that data to the new acid instances
-        aCurrentNewAcid->Setid(aCurrent->Getid());
-        aCurrentNewAcid->Setposition(aCurrent->Getposition());
-
-        // creates a new linked list head
-        if (aHeadNewAcid == NULL)
+        bool selectFromLinkedList = Utils::SelectFromLinkedList();
+        if (selectFromLinkedList == true)
         {
-            aHeadNewAcid = aCurrentNewAcid;
-            aPreviousNewAcid = aCurrentNewAcid;
+            // Create new acid instances each loop for the new linked list
+            aCurrentNewAcid = new Acid;
+
+            // Takes the data from the original linked list and sets
+            // that data to the new acid instances
+            aCurrentNewAcid->Setid(aCurrent->Getid());
+            aCurrentNewAcid->Setposition(aCurrent->Getposition());
+
+
+            // creates a new linked list head
+            if (aHeadNewAcid == NULL)
+            {
+                aHeadNewAcid = aCurrentNewAcid;
+                aPreviousNewAcid = aCurrentNewAcid;
+            }
+            // Creates the rest of the new linked list nodes
+            else
+            {
+                aPreviousNewAcid->aSetNext(aCurrentNewAcid);
+                aPreviousNewAcid = aPreviousNewAcid->aGetNext();
+            }
+
+            //-----------------------------------------------------//
+
+            // Add the bonds for the copied acid
+            if (aCurrent->GetIsTwoConnections() == true)
+            {
+                aCopiedConnectionNode = aCurrentNewAcid;
+
+                // First connection
+                if (aCopiedConnectionNode != NULL)
+                {
+                    //aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+                    if (aCopiedConnectionNode != NULL)
+                    {
+                        aCopiedConnectionNode->copiedBondList[0] = aCurrent->bondList[0];
+                    }
+                }
+
+                // Second connection
+                if (aCopiedConnectionNode != NULL)
+                {
+                    //aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
+                    if (aCopiedConnectionNode != NULL)
+                    {
+
+                        aCopiedConnectionNode->copiedBondList[1] = aCurrent->bondList[1];
+                    }
+                }
+            }
+            else if (aCurrent->GetIsThreeConnections() == true)
+            {
+                aCopiedConnectionNode = aCurrentNewAcid;
+
+                // First connection
+                if (aCopiedConnectionNode != NULL)
+                {
+                    if (aCopiedConnectionNode != NULL)
+                    {
+                        aCopiedConnectionNode->copiedBondList[0] = aCurrent->bondList[0];
+                    }
+                }
+
+                // Second connection
+                if (aCopiedConnectionNode != NULL)
+                {
+                    if (aCopiedConnectionNode != NULL)
+                    {
+                        aCopiedConnectionNode->copiedBondList[1] = aCurrent->bondList[1];
+                    }
+                }
+
+                // Third connection
+                if (aCopiedConnectionNode != NULL)
+                {
+                    if (aCopiedConnectionNode != NULL)
+                    {
+                        aCopiedConnectionNode->copiedBondList[2] = aCurrent->bondList[2];
+                    }
+                }
+            }
         }
-        // Creates the rest of the new linked list nodes
-        else
-        {
-            aPreviousNewAcid->aSetNext(aCurrentNewAcid);
-            aPreviousNewAcid = aPreviousNewAcid->aGetNext();
-        }
+        
         // Iteirate through the original linked list
         aCurrent = aCurrent->aGetNext();
     }
 
-}
-
-void Acid::AddCopiedConnections()
-{
-    aCurrent = aHead;
-    aCurrentNewAcid = aHeadNewAcid;
-    while (aCurrentNewAcid != NULL)
-    {
-        if (aCurrent->GetIsTwoConnections() == true)
-        {
-            aCopiedConnectionNode = aCurrentNewAcid;
-            aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
-
-            // First connection
-            if (aCopiedConnectionNode != NULL)
-            {
-                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
-                if (aCopiedConnectionNode != NULL)
-                {
-                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
-                }
-            }
-
-            // Second connection
-            if (aCopiedConnectionNode != NULL)
-            {
-                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
-                if (aCopiedConnectionNode != NULL)
-                {
-                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
-                }
-            }
-        }
-        else if (aCurrent->GetIsThreeConnections() == true)
-        {
-            aCopiedConnectionNode = aCurrentNewAcid;
-            aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
-
-            // First connection
-            if (aCopiedConnectionNode != NULL)
-            {
-                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
-                if (aCopiedConnectionNode != NULL)
-                {
-                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
-                }
-            }
-
-            // Second connection
-            if (aCopiedConnectionNode != NULL)
-            {
-                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
-                if (aCopiedConnectionNode != NULL)
-                {
-                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
-                }
-            }
-
-            // Third connection
-            if (aCopiedConnectionNode != NULL)
-            {
-                aCopiedConnectionNode = aCopiedConnectionNode->aGetNext();
-                if (aCopiedConnectionNode != NULL)
-                {
-                    aCurrentNewAcid->AddBond(aCopiedConnectionNode);
-                }
-            }
-        }
-
-        aCurrent = aCurrent->aGetNext();
-        aCurrentNewAcid = aCurrentNewAcid->aGetNext();
-    }
 }
 
 // Function that displays the original protein data
@@ -274,16 +302,37 @@ void Acid::DisplayAcidPosition()
     cout << "Acid #: " << id << " at ";
     Getposition().Display();
     cout << "Connections List: " << endl;
+
     for (int i = 0; i < 3; i++)
     {
         if (bondList[i] != NULL)
         {
-            cout << " " << bondList[i]->Getid() << endl;
+            cout << "Bond: " << bondList[i]->Getid() << " ";
+            cout << "Position: "; 
+            bondList[i]->Getposition().Display();
         }
     }
     cout << "--------" << endl;
 }
 
+// Function that displays the original protein data
+void Acid::DisplayCopiedAcidPosition()
+{
+    cout << "Acid #: " << id << " at ";
+    Getposition().Display();
+    cout << "Connections List: " << endl;
+
+    for (int i = 0; i < 3; i++)
+    {
+        if (copiedBondList[i] != NULL)
+        {
+            cout << "Bond: " << copiedBondList[i]->Getid() << " ";
+            cout << "Position: ";
+            copiedBondList[i]->Getposition().Display();
+        }
+    }
+    cout << "--------" << endl;
+}
 
 // Function to delete all the linked lists
 void Acid::DeleteAllAcidLinkList()

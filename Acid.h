@@ -12,6 +12,7 @@ public:
     Acid* acid;
     Acid* aNext;
     Acid* bondList[2];
+    Acid* copiedBondList[2];
     
     // Original protein linked list
     Acid* aHead = NULL;
@@ -26,8 +27,7 @@ public:
     Acid* aCopiedConnectionNode = NULL;
 
     // Counter for acid connections
-    int countConnections;
-
+    int countBonds;
 
     Acid();
     virtual ~Acid();
@@ -58,14 +58,15 @@ public:
     void AddBond(Acid* acid);
     void AddConnections();
     void CopyLinkedListContents();
-    void AddCopiedConnections();
     void DisplayAcidPosition();
+    void DisplayCopiedAcidPosition();
     void DeleteAllAcidLinkList();
 
 private:
     vec3 position;
     int id;
     double lastX;
+
     bool isTwoConnections;
     bool isThreeConnections;
 };
