@@ -20,11 +20,12 @@ public:
 
     // ----- Functions -----
     void CreateOriginalProtein();
-    void CreateRandomProtein();
+    void CreateFirstRandomProtein();
+    void CreateSecondRandomProtein();
+    void WriteOutData();
 
 private:
     std::string name;
-
 };
 
 #endif // PROTEIN_H

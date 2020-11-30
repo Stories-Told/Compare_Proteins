@@ -20,11 +20,16 @@ public:
     Acid* aPrevious = NULL;
     Acid* aConnectionNode = NULL;
 
-    // Random protein creation linked list
-    Acid* aHeadNewAcid = NULL;
-    Acid* aCurrentNewAcid = NULL;
-    Acid* aPreviousNewAcid = NULL;
+    // First Random protein creation linked list
+    Acid* aHeadFirstNew = NULL;
+    Acid* aCurrentFirstNew = NULL;
+    Acid* aPreviousFirstNew = NULL;
     Acid* aCopiedConnectionNode = NULL;
+
+    // Second Random protein creation linked list
+    Acid* aHeadSecondNew = NULL;
+    Acid* aCurrentSecondNew = NULL;
+    Acid* aPreviousSecondNew = NULL;
 
     // Counter for acid connections
     int countBonds;
@@ -49,6 +54,9 @@ public:
     bool GetIsThreeConnections() { return isThreeConnections; }
     void SetIsThreeConnections(bool val) { isThreeConnections = val; }
 
+    bool GetShouldFileClose() { return shouldFileClose; }
+    void SetShouldFileClose(bool val) { shouldFileClose = val; }
+
     Acid* aGetNext() { return aNext; }
     void aSetNext(Acid* h) { aNext = h; }
 
@@ -57,9 +65,11 @@ public:
     void GenerateOriginalAcidPositions();
     void AddBond(Acid* acid);
     void AddConnections();
-    void CopyLinkedListContents();
+    void CreateFirstNewAcids();
+    void CreateSecondNewAcids();
     void DisplayAcidPosition();
     void DisplayCopiedAcidPosition();
+    void WriteOutAllAcidData();
     void DeleteAllAcidLinkList();
 
 private:
@@ -69,6 +79,8 @@ private:
 
     bool isTwoConnections;
     bool isThreeConnections;
+
+    bool shouldFileClose;
 };
 
 #endif // ACID_H

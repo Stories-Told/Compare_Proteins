@@ -23,9 +23,6 @@ public:
 
 private:
 
-
-
-
 };
 
 #endif // VEC3_H

@@ -41,20 +41,45 @@ void Protein::CreateOriginalProtein()
 
 // Takes random acid positions from the original protein
 // and creates a new protein
-void Protein::CreateRandomProtein()
+void Protein::CreateFirstRandomProtein()
 {
     // Variable that calls function to generate
     // a random protein name
     name = Utils::GenerateRandomName();
-    cout << "Copied Protein Name: " << name << endl;
+    cout << "Random Protein Name: " << name << endl;
 
-    genAcids.CopyLinkedListContents();
-    //genAcids.AddCopiedConnections();
+    genAcids.CreateFirstNewAcids();
 
-    genAcids.aCurrentNewAcid = genAcids.aHeadNewAcid;
-    while (genAcids.aCurrentNewAcid != NULL)
+    genAcids.aCurrentFirstNew = genAcids.aHeadFirstNew;
+    while (genAcids.aCurrentFirstNew != NULL)
     {
-        genAcids.aCurrentNewAcid->DisplayCopiedAcidPosition();
-        genAcids.aCurrentNewAcid = genAcids.aCurrentNewAcid->aGetNext();
+        genAcids.aCurrentFirstNew->DisplayCopiedAcidPosition();
+        genAcids.aCurrentFirstNew = genAcids.aCurrentFirstNew->aGetNext();
     }
 }
+
+// Takes random acid positions from the original protein
+// and creates a new protein
+void Protein::CreateSecondRandomProtein()
+{
+    // Variable that calls function to generate
+    // a random protein name
+    name = Utils::GenerateRandomName();
+    cout << "Random Protein Name: " << name << endl;
+
+    genAcids.CreateSecondNewAcids();
+
+    genAcids.aCurrentSecondNew = genAcids.aHeadSecondNew;
+    while (genAcids.aCurrentSecondNew != NULL)
+    {
+        genAcids.aCurrentSecondNew->DisplayCopiedAcidPosition();
+        genAcids.aCurrentSecondNew = genAcids.aCurrentSecondNew->aGetNext();
+    }
+}
+
+// Writes out the data of all the proteins in a side by side manner
+void Protein::WriteOutData()
+{
+    genAcids.WriteOutAllAcidData();
+}
+
